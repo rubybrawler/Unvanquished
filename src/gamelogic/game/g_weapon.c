@@ -1807,6 +1807,10 @@ void FireWeapon( gentity_t *ent )
 			bulletFire( ent, MGTURRET_SPREAD, MGTURRET_DMG, MOD_MGTURRET );
 			break;
 
+		case WP_SMALL_MGTURRET:
+			bulletFire( ent, SMALL_MGTURRET_SPREAD, SMALL_MGTURRET_DMG, MOD_MGTURRET );
+			break;
+
 		case WP_ABUILD:
 		case WP_ABUILD2:
 			buildFire( ent, MN_A_BUILD );

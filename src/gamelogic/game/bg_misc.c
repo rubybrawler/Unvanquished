@@ -363,6 +363,42 @@ static const buildableAttributes_t bg_buildableList[] =
 		0.001f, //float    radarFadeOut;
 	},
 	{
+		BA_H_SMALL_MGTURRET, //int       number;
+		"smgturret", //char      *name;
+		"Mini Machinegun Turret", //char      *humanName;
+		N_( "Automated base defense that is effective against large targets "
+		"but slow to begin firing. Should always be "
+		"backed up by physical support." ),
+		"team_human_small_mgturret", //char      *entityName;
+		TR_GRAVITY, //trType_t  traj;
+		0.0, //float     bounce;
+		SMALL_MGTURRET_BP, //int       buildPoints;
+		( 1 << S2 ) | ( 1 << S3 ), //int  stages;
+		SMALL_MGTURRET_HEALTH, //int       health;
+		0, //int       regenRate;
+		SMALL_MGTURRET_SPLASHDAMAGE, //int       splashDamage;
+		SMALL_MGTURRET_SPLASHRADIUS, //int       splashRadius;
+		MOD_HSPAWN, //int       meansOfDeath;
+		TEAM_HUMANS, //int       team;
+		( 1 << WP_HBUILD ), //weapon_t  buildWeapon;
+		BANIM_IDLE1, //int       idleAnim;
+		50, //int       nextthink;
+		MGTURRET_BT, //int       buildTime;
+		qfalse, //qboolean  usable;
+		MGTURRET_RANGE, //int       turretRange;
+		MGTURRET_REPEAT, //int       turretFireSpeed;
+		WP_SMALL_MGTURRET, //weapon_t  turretProjType;
+		0.0f, //float     minNormal;
+		qtrue, //qboolean  invertNormal;
+		qfalse, //qboolean  creepTest;
+		0, //int       creepSize;
+		qfalse, //qboolean  dccTest;
+		qtrue, //qboolean  transparentTest;
+		qfalse, //qboolean  uniqueTest;
+		SMALL_MGTURRET_VALUE, //int       value;
+		0.001f, //float    radarFadeOut;
+	},
+	{
 		BA_H_TESLAGEN, //int       number;
 		"tesla", //char      *name;
 		"Tesla Generator", //char      *humanName;
@@ -2470,6 +2506,31 @@ static const weaponAttributes_t bg_weapons[] =
 		SLOT_WEAPON, //int       slots;
 		"mgturret", //char      *name;
 		"Machinegun Turret", //char      *humanName;
+		"",
+		0, //int       maxAmmo;
+		0, //int       maxClips;
+		qtrue, //int       infiniteAmmo;
+		qfalse, //int       usesEnergy;
+		0, //int       repeatRate1;
+		0, //int       repeatRate2;
+		0, //int       repeatRate3;
+		0, //int       reloadTime;
+		MGTURRET_K_SCALE, //float     knockbackScale;
+		qfalse, //qboolean  hasAltMode;
+		qfalse, //qboolean  hasThirdMode;
+		qfalse, //qboolean  canZoom;
+		90.0f, //float     zoomFov;
+		qfalse, //qboolean  purchasable;
+		qfalse, //qboolean  longRanged;
+		TEAM_HUMANS //team_t    team;
+	},
+	{
+		WP_SMALL_MGTURRET, //int       number;
+		0, //int       price;
+		( 1 << S2 ) | ( 1 << S3 ), //int  stages;
+		SLOT_WEAPON, //int       slots;
+		"smgturret", //char      *name;
+		"Mini Machinegun Turret", //char      *humanName;
 		"",
 		0, //int       maxAmmo;
 		0, //int       maxClips;

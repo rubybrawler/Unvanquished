@@ -359,6 +359,7 @@ typedef enum
   WP_HIVE,
   WP_TESLAGEN,
   WP_MGTURRET,
+  WP_SMALL_MGTURRET,
 
   //build weapons must remain in a block
   WP_ABUILD,
@@ -412,6 +413,7 @@ typedef enum
   BA_H_SPAWN,
 
   BA_H_MGTURRET,
+  BA_H_SMALL_MGTURRET,
   BA_H_TESLAGEN,
 
   BA_H_ARMOURY,

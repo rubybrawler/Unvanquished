@@ -559,6 +559,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define MGTURRET_SPINUP_TIME      750 // time between target sighted and fire
 #define MGTURRET_VALUE            HBVM(MGTURRET_BP)
 
+#define SMALL_MGTURRET_BP         6
+#define SMALL_MGTURRET_HEALTH     HBHM(160)
+#define SMALL_MGTURRET_SPLASHDAMAGE 100
+#define SMALL_MGTURRET_SPLASHRADIUS 100
+#define SMALL_MGTURRET_SPREAD     160
+#define SMALL_MGTURRET_DMG        HDM(6)
+#define SMALL_MGTURRET_VALUE      HBVM(SMALL_MGTURRET_BP)
+
 #define TESLAGEN_BP               10
 #define TESLAGEN_BT               15000
 #define TESLAGEN_HEALTH           HBHM(220)

@@ -632,6 +632,7 @@ qboolean CG_GetBuildableRangeMarkerProperties( buildable_t bType, rangeMarker_t 
 			break;
 
 		case BA_H_MGTURRET:
+		case BA_H_SMALL_MGTURRET:
 			*range = MGTURRET_RANGE;
 			shc = SHC_ORANGE;
 			break;
@@ -664,7 +665,7 @@ qboolean CG_GetBuildableRangeMarkerProperties( buildable_t bType, rangeMarker_t 
 	{
 		*rmType = RM_SPHERICAL_CONE_64;
 	}
-	else if ( bType == BA_H_MGTURRET )
+	else if ( bType == BA_H_MGTURRET || bType == BA_H_SMALL_MGTURRET )
 	{
 		*rmType = RM_SPHERICAL_CONE_240;
 	}
@@ -1921,7 +1922,7 @@ void CG_Buildable( centity_t *cent )
 		       scale * (float) sin ( 0.5f * (cg.time - es->time) / buildable->buildTime * M_PI );
 		ent.skeleton = bSkeleton;
 
-		if( es->modelindex == BA_H_MGTURRET )
+		if( es->modelindex == BA_H_MGTURRET || es->modelindex == BA_H_SMALL_MGTURRET )
 		{
 			quat_t rotation;
 

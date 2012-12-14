@@ -3306,6 +3306,7 @@ static int G_CompareBuildablesForRemoval( const void *a, const void *b )
 		BA_A_OVERMIND,
 
 		BA_H_MGTURRET,
+		BA_H_SMALL_MGTURRET,
 		BA_H_TESLAGEN,
 		BA_H_DCC,
 		BA_H_MEDISTAT,
@@ -4184,6 +4185,7 @@ static gentity_t *G_Build( gentity_t *builder, buildable_t buildable,
 			break;
 
 		case BA_H_MGTURRET:
+		case BA_H_SMALL_MGTURRET:
 			built->die = HSpawn_Die;
 			built->think = HMGTurret_Think;
 			break;
