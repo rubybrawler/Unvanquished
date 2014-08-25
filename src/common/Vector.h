@@ -83,6 +83,9 @@ public:
 
 	// Reduce the elements of the vector to a single value
 	template<typename Func> Type Reduce(Type init, Func func);
+
+	// Get an element of the vector
+	Type operator[](size_t index) const {return data[index];}
 };
 
 // Type-specific vector operations
@@ -216,7 +219,7 @@ public:
 	{
 		this->FillFromElem(x);
 	}
-	template<typename Type2, typename = typename std::enable_if<std::is_convertible<Type2, Type>::value>::type> explicit Vector(Vector<Length, Type2> vec)
+	template<typename Type2, typename = typename std::enable_if<std::is_convertible<Type2, Type>::value>::type> explicit Vector(Vector<2, Type2> vec)
 	{
 		*this = vec.Apply([](Type2 a) {return static_cast<Type>(a);});
 	}
@@ -265,7 +268,7 @@ public:
 	{
 		this->FillFromElem(x);
 	}
-	template<typename Type2, typename = typename std::enable_if<std::is_convertible<Type2, Type>::value>::type> explicit Vector(Vector<Length, Type2> vec)
+	template<typename Type2, typename = typename std::enable_if<std::is_convertible<Type2, Type>::value>::type> explicit Vector(Vector<3, Type2> vec)
 	{
 		*this = vec.Apply([](Type2 a) {return a;});
 	}
@@ -404,7 +407,7 @@ public:
 	{
 		this->FillFromElem(x);
 	}
-	template<typename Type2, typename = typename std::enable_if<std::is_convertible<Type2, Type>::value>::type> explicit Vector(Vector<Length, Type2> vec)
+	template<typename Type2, typename = typename std::enable_if<std::is_convertible<Type2, Type>::value>::type> explicit Vector(Vector<4, Type2> vec)
 	{
 		*this = vec.Apply([](Type2 a) {return static_cast<Type>(a);});
 	}
@@ -832,6 +835,86 @@ Type VectorBase<Length, Type>::Reduce(Type init, Func func)
 	for (size_t i = 0; i < Length; i++)
 		init = func(init, data[i]);
 	return init;
+}
+
+// Vector minimum/maximum and clamping
+template<size_t Length, typename Type>
+Vector<Length, Type> min(Vector<Length, Type> a, Vector<Length, Type> b)
+{
+	return a.Apply2([](Type a, Type b) {return std::min(a, b);}, b);
+}
+template<size_t Length, typename Type>
+Vector<Length, Type> max(Vector<Length, Type> a, Vector<Length, Type> b)
+{
+	return a.Apply2([](Type a, Type b) {return std::max(a, b);}, b);
+}
+template<size_t Length, typename Type>
+Vector<Length, Type> clamp(Vector<Length, Type> x, Vector<Length, Type> low, Vector<Length, Type> high)
+{
+	return min(max(x, low), high);
+}
+template<size_t Length, typename Type>
+Vector<Length, Type> clamp(Vector<Length, Type> x, Type low, Type high)
+{
+	return clamp(x, Vector<Length, Type>(low), Vector<Length, Type>(high));
+}
+
+// Vector dot product, length and distance
+template<size_t Length, typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Type dot(Vector<Length, Type> a, Vector<Length, Type> b)
+{
+	return (a * b).Reduce(0, [](Type a, Type b) {return a + b;});
+}
+template<size_t Length, typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Type lengthSq(Vector<Length, Type> x)
+{
+	return dot(x, x);
+}
+template<size_t Length, typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Type length(Vector<Length, Type> x)
+{
+	return sqrt(lengthSq(x));
+}
+template<size_t Length, typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Type distanceSq(Vector<Length, Type> a, Vector<Length, Type> b)
+{
+	return lengthSq(a - b);
+}
+template<size_t Length, typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Type distance(Vector<Length, Type> a, Vector<Length, Type> b)
+{
+	return sqrt(distanceSq(a, b));
+}
+
+// Vector cross product
+template<typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Vector<3, Type> cross(Vector<3, Type> a, Vector<3, Type> b)
+{
+	return a.yzx() * b.zxy() - a.zxy() * b.yzx();
+}
+
+// Vector normalization
+template<size_t Length, typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Vector<Length, Type> normalize(Vector<Length, Type> x)
+{
+	return x / length(x);
+}
+
+// Vector interpolation
+template<size_t Length, typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Vector<Length, Type> mix(Vector<Length, Type> a, Vector<Length, Type> b, Vector<Length, Type> frac)
+{
+	return a + (b - a) * frac;
+}
+template<size_t Length, typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Vector<Length, Type> mix(Vector<Length, Type> a, Vector<Length, Type> b, Type frac)
+{
+	return a + (b - a) * frac;
+}
+template<size_t Length, typename Type, typename Enable = typename std::enable_if<std::is_floating_point<Type>::value>::type>
+Vector<Length, Type> mix(Vector<Length, Type> a, Vector<Length, Type> b, Vector<Length, bool> sel)
+{
+	return a.Apply3([](Type a, Type b, bool sel) {return sel ? b : a;}, b, sel);
 }
 
 #endif // COMMON_VECTOR_H_
